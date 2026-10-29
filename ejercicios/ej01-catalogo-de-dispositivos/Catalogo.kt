@@ -3,20 +3,27 @@
 // PASO 1: crea una data class DispositivoMovil con estas propiedades (val):
 //   nombre: String, tipo: String, pulgadas: Double, tieneGps: Boolean, bateriaMah: Int
 // Pista:  data class DispositivoMovil(val nombre: String, ...)
-
+data class DispositivoMovil(
+    val nombre: String,
+    val tipo: String,
+    val pulgadas: Double,
+    val tieneGps: Boolean,
+    val bateriaMah: Int
+)
 
 fun main() {
     // PASO 2: cuando tengas la clase, quita las // de esta lista:
-    // val catalogo = listOf(
-    //     DispositivoMovil("Pixel 9", "Smartphone", 6.3, true, 4700),
-    //     DispositivoMovil("iPad Air", "Tablet", 11.0, false, 7600),
-    //     DispositivoMovil("Galaxy Watch 7", "Wearable", 1.5, true, 425),
-    //     DispositivoMovil("Kindle Paperwhite", "eBook", 7.0, false, 1700),
-    //     DispositivoMovil("Galaxy Z Fold 6", "Plegable", 7.6, true, 4400),
-    //     DispositivoMovil("Palm Tungsten T5", "PDA", 3.5, false, 900),
-    // )
+     val catalogo = listOf(
+         DispositivoMovil("Pixel 9", "Smartphone", 6.3, true, 4700),
+         DispositivoMovil("iPad Air", "Tablet", 11.0, false, 7600),
+         DispositivoMovil("Galaxy Watch 7", "Wearable", 1.5, true, 425),
+         DispositivoMovil("Kindle Paperwhite", "eBook", 7.0, false, 1700),
+         DispositivoMovil("Galaxy Z Fold 6", "Plegable", 7.6, true, 4400),
+         DispositivoMovil("Palm Tungsten T5", "PDA", 3.5, false, 900),
+     )
 
     // PASO 3: muestra el título  CATÁLOGO (6 dispositivos)  usando catalogo.size
+    println("CATÁLOGO ${catalogo.size} dispositivos")
 
 
     // PASO 4: recorre el catálogo con un for y muestra una línea por dispositivo:
@@ -24,16 +31,24 @@ fun main() {
     // Pistas: d.nombre.padEnd(20) rellena con espacios hasta 20 caracteres;
     //         para las comillas de las pulgadas escribe \"  ;
     //         if (d.tieneGps) "sí" else "no"  es una expresión que devuelve un texto.
+    
+    
+    for (dispositivo in catalogo){
+        print("${dispositivo.nombre.padEnd(20)} ${dispositivo.tipo}  ${dispositivo.pulgadas}\"  GPS: ${if (dispositivo.tieneGps) "sí" else "no"}  ${dispositivo.bateriaMah} mAh\n")
+    }
 
 
     // PASO 5: con filter y map, obtén los NOMBRES de los que tienen GPS y muéstralos
     //         separados por comas con joinToString().
-
+    val dispositivosConGps = catalogo.filter { it.tieneGps }.map { it.nombre }
+    println("Dispositivos con GPS: ${dispositivosConGps.joinToString(", ")}")
 
     // PASO 6: con maxBy { it.bateriaMah } busca el de más batería y muéstralo.
-
+    val dispositivoConMasBateria = catalogo.maxBy { it.bateriaMah }
+    println("Dispositivo con más batería: ${dispositivoConMasBateria?.nombre}")
 
     // PASO 7: con groupBy { it.tipo } agrupa por tipo y cuenta cuántos hay de cada uno:
     //         catalogo.groupBy { it.tipo }.mapValues { it.value.size }
-
+    val dispositivosPorTipo = catalogo.groupBy { it.tipo }.mapValues { it.value.size }
+    println("Cantidad de dispositivos por tipo: $dispositivosPorTipo")
 }
